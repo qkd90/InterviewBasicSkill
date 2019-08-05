@@ -1,3 +1,2 @@
-# Python-LeetCode
-自己写出的LeetCode的算法和数据库相关题目Python题解，以及剑指offer第二版的例题
+# 自己写出的LeetCode用Python解决算法和数据库题解，以及剑指offer第二版的例题，以及CSDN博客里面的内容。持续更新中
 
