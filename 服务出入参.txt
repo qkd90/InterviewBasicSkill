@@ -1,0 +1,47 @@
+DoctorsPoolServices-UseDorctorPool入参：
+{'IsCompress': False, 'ServiceName': 'DoctorsPoolServices',
+ 'InterfaceName': 'UseDorctorPool', 'Parameter': 
+{'ORG_CODE': 'NHFY', 'HOSP_CODE': 'NHFY01', 'DEPT_ID': '9361', 'DEPT_NAME': '门诊产科', 
+'ORDER_DATE': '2021-04-01 00:00:00', 'TIME_QUANTUM': 4, 'DOC_LEVEL': '2', 'DOC_LEVEL_NAME': '副主任医师', 'DOCTOR_ID': '7056',
+'DOCTOR_NAME': '秦永喜', 'ISUSE': 1, 'QUENEN_NO': 44}, 'Token': '5455afa3-c126-4cad-aa1c-c8716a36f252', 'EncrypLog': False, 
+'ParameterAppendToUrl': False, 'ContentType': 'application/json', 'Client': {'Ip': '10.211.55.3', 'UserCode': 'test001', 
+'Token': '5455afa3-c126-4cad-aa1c-c8716a36f252'}, 'IfTokenExpiredThenReloginAndRetry': False, 'TimeOut': 15000}
+
+DoctorsPoolServices-UseDorctorPool结果：
+{'Success': True, 'data':
+        {'IsCompress': 'false', 'Value': {'Code': 200, 'Message': '成功', 'Reg_Doctors_Pool': 
+{'ID': 'cd593f9330bf47d59bf10a2e1a0b08c7', 'SCHED_ID': '1876891422874ca0b7aae264df8936ca', 'ORG_CODE': 'NHFY', 
+'ORG_NAME': '南华大学附属第一医院', 'HOSP_CODE': 'NHFY01', 'HOSP_NAME': '本院', 'DEPT_ID': '9361', 'DEPT_NAME': '门诊产科',
+'DOC_LEVEL': '2', 'DOC_LEVEL_NAME': '副主任医师', 'DOCTOR_ID': '7056', 'DOCTOR_NAME': '秦永喜', 'ORDER_DATE': '2021-04-01T00:00:00',
+'TIME_QUANTUM': 4, 'TIME_QUANTUM_NAME': '晚上', 'ROOTIN': 1, 'REGMONEY': 15.0, 'TIME_ID': None, 'TIME_QUEUE_ID': None, 
+'START_TIME': '23:19:02', 'END_TIME': '23:27:09', 'QUENEN_NO': 44, 'IS_USEED': 'Y', 'CREATE_USER': '238943445006290944', 
+'CREATE_DATE': '2021-03-11T11:11:33', 'UPDATE_USER': None, 'UPDATE_DATE': '2021-03-24T11:43:45', 'IS_DELETE': 'N', 
+'Reg_Queue_Dayrole': None, 'Oper': 0, 'ISBOOK': 1, 'IS_VALID': 'Y'}}}}
+
+
+SerialNoService-GetCurrentNo入参：
+{'IsCompress': False, 'ServiceName': 'SerialNoService', 'InterfaceName': 'GetCurrentNo', 'Parameter': 
+    {'IncreaseBit': 1, 'KeyCode': 'CLCNO', 'NumberType': '0002', 'DeptCode': '9361', 'HospCode': 'NHFY01', 
+    'OperCode': '191915831684403200', 'OrgCode': 'NHFY', 'ReOne': '', 'ReTwo': ''}, 
+'Token': '5455afa3-c126-4cad-aa1c-c8716a36f252', 'EncrypLog': False, 'ParameterAppendToUrl': False,
+'ContentType': 'application/json', 'Client': {'Ip': '10.211.55.3', 'UserCode': 'test001', 
+'Token': '5455afa3-c126-4cad-aa1c-c8716a36f252'}, 'IfTokenExpiredThenReloginAndRetry': False, 'TimeOut': 15000}
+
+SerialNoService-GetCurrentNo结果：
+{'Success': True, 'data': {'IsCompress': 'false', 'Value': {'Code': 200, 'Message': '成功', 'No': '2021032400005'}}}
+
+
+DoctorStoodService-SaveRegTriageRecord入参：
+{'IsCompress': False, 'ServiceName': 'DoctorStoodService', 'InterfaceName': 'SaveRegTriageRecord',
+ 'Parameter': {'triageList': [{'DOCTOR_ID': '7056', 'DOCTOR_NAME': '秦永喜', 'PATIENT_NAME': '张麻子', 'DEPT_ID': '9361',
+  'DEPT_NAME': '门诊产科', 'REG_ID': '', 'PATIENT_ID': '391c9bf3842b4b64aab7324a20db1cc2', 'ORG_CODE': 
+  'NHFY', 'HOSP_CODE': 'NHFY01', 'REG_DATE': '2021-04-01', 'OUTPATIENT_NO': '', 'CARD_NO': '7758258', 'STATUS': 0, 
+  'REG_NO': 44, 'SORT_NO': 44, 'IS_AGAIN': 0, 'VALIDTIME': '2020-12-20 23:59:59', 'ACCEPT_DEPT_ID': '9361', 
+  'ACCEPT_DEPT_NAME': '门诊产科', 'ACCEPT_DOCTOR_ID': '7056', 'ACCEPT_DOCTOR_NAME': '秦永喜', 'CREATE_USER': '191915831684403200',
+  'IS_REFERRAL': 0}]}, 'Token': '5455afa3-c126-4cad-aa1c-c8716a36f252', 'EncrypLog': False, 'ParameterAppendToUrl': False,
+  'ContentType': 'application/json', 'Client': {'Ip': '10.211.55.3', 'UserCode': 'test001', 
+  'Token': '5455afa3-c126-4cad-aa1c-c8716a36f252'}, 'IfTokenExpiredThenReloginAndRetry': False, 'TimeOut': 15000}
+
+DoctorStoodService-SaveRegTriageRecord结果：
+{'Success': True, 'data': {'IsCompress': 'false', 'Value': {'Code': 200, 'Message': '成功'}}}
+{'Code': 200, 'Reg_ID': '', 'ReferenceSum': 15.0, 'QueueNumber': 44, 'OutPatientNo': '', 'Message': '挂号登记成功!', 'LineCount': 1}
