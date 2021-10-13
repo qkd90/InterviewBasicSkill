@@ -26,3 +26,4 @@ public enum GlobalErrorInfoEnum implements ErrorInfoInterface{
         return this.message;
     }
 }
+}
