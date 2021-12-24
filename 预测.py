@@ -16,7 +16,7 @@ class Solution:
         return False
 if __name__ == "__main__":
     s = 'aaaaaaaaaaaaaaaaaaaaaaa'
-    pattern = 'a*a.'
+    pattern = 'aba.'
     obj = Solution()
     print (obj.match(s,pattern))
 
