@@ -1,20 +1,12 @@
 class Solution {
-    List<Integer> t = new ArrayList<Integer>();
-    List<List<Integer>> ans = new ArrayList<List<Integer>>();
-
-    public List<List<Integer>> subsets(int[] nums) {
-        dfs(0, nums);
-        return ans;
+  public int maxArea(int[] height) {
+    int left = 0, right = height.length - 1, res = 0;
+    while (left < right) {
+      res =
+        height[i] < height[right]
+          ? Math.max(res, (right - left) * height[i++])
+          : Math.max(res, (right - left) * height[right--]);
     }
-
-    public void dfs(int cur, int[] nums) {
-        if (cur == nums.length) {
-            ans.add(new ArrayList<Integer>(t));
-            return;
-        }
-        t.add(nums[cur]);
-        dfs(cur + 1, nums);
-        t.remove(t.size() - 1);
-        dfs(cur + 1, nums);
-    }
+    return res;
+  }
 }
