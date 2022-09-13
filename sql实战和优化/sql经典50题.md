@@ -2,21 +2,21 @@
 
 ## 题干：
 
-- 学生表（Student）
+- 学生表（Student）：学生id、学生姓名、学生生日、学生性别
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/ca4430badaa74eaf8adac111e29bc54e.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAUm9iaW5fUGk=,size_18,color_FFFFFF,t_70,g_se,x_16)
+  ![image-20220902100047509](https://raw.githubusercontent.com/qkd90/figureBed/main/202209021000543.png)
 
-- 课程表（Course）
+- 课程表（Course）：课程id、教课教师id、名称
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/3e6904b0568e4297a926cf06a444913d.png)
+  ![image-20220902100028719](https://raw.githubusercontent.com/qkd90/figureBed/main/202209021000768.png)
 
 - 教师表（Teacher）
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/6b7db0b599d14a039f458f78e3433132.png)
+  ![image-20220902100108764](https://raw.githubusercontent.com/qkd90/figureBed/main/202209021001798.png)
 
 - 成绩表（Score）
 
-  ![在这里插入图片描述](https://img-blog.csdnimg.cn/d5ff832ec0dc4af3958f30b09c0ce5dd.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAUm9iaW5fUGk=,size_14,color_FFFFFF,t_70,g_se,x_16)
+  ![image-20220902100124269](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20220902100124269.png)
 
 附表格创建代码：
 
@@ -87,6 +87,8 @@ WHERE s_id NOT IN
 
 ## 6、查询学过“张三”老师所教的所有课的同学的学号、姓名
 
+
+
 ```sql
 ## 有点难度，想不过来就很难【自连接的情况】
 SELECT st.s_id, st.s_name
@@ -106,9 +108,132 @@ WHERE st.s_id IN
 			);
 ```
 
+## 7、查询学过编号为“01”的课程并且也学过编号为“02”的课程的学生的学号、姓名
 
+```sql
+SELECT st.s_id, st.s_name
+FROM Student st
+     JOIN
+     (
+     SELECT sc1.*
+     FROM Score sc1
+          JOIN Score sc2
+               ON sc1.s_id = sc2.s_id
+     WHERE sc1.c_id = '01' # 这里不需要使用IN，也不需要纠结顺序问题，因为两张表都是Score
+       AND sc2.c_id = '02'
+     ) m
+     ON st.s_id = m.s_id;
+```
 
+1.采用自连接筛选出id相同，但是课程不同的人
 
+## 8、查询课程编号为“02”的总成绩
+
+```sql
+select c_id, sum(s_score)
+from Score
+where c_id = '02';
+```
+
+```sql
+SELECT c_id, SUM(s_score)
+FROM Score
+GROUP BY c_id
+# 考察 HAVING，group by等聚合条件限制不能使用WHERE
+HAVING c_id = '02'
+```
+
+## 9、查询所有课程成绩小于60分的学生的学号、姓名
+
+```sql
+SELECT DISTINCT st.s_id, st.s_name
+FROM Student st
+     JOIN
+     (
+     SELECT
+         s_id,
+         max(s_score) max_score
+     FROM Score s
+     GROUP BY s.s_id
+     HAVING max_score < 60
+     ) s # 满足条件的学生
+     ON st.s_id = s.s_id
+```
+
+1.所有成绩小于60，意味着最大成绩小于60就可以了
+
+## 10、查询没有学全所有课的学生的学号、姓名 
+
+```sql
+SELECT DISTINCT st.s_id, st.s_name
+FROM Student st 
+JOIN 
+		(
+		SELECT m.s_id
+		FROM (
+					SELECT s_id, COUNT(c_id) cnt 
+					FROM Score
+					GROUP BY s_id
+				 ) m
+		WHERE m.cnt != (SELECT COUNT(c_id) FROM Course)
+		) n  
+		# 子查询注意都要使用别名
+ON st.s_id = n.s_id
+
+```
+
+1.没有学全所有课=课程数<所有课程个数
+
+## 11、查询至少有一门课与学号为“01”的学生所学课程相同的学生的学号和姓名
+
+```sql
+SELECT DISTINCT st.s_id, st.s_name
+FROM Student st
+     JOIN Score sc
+          ON st.s_id = sc.s_id
+WHERE sc.c_id IN
+      (
+      SELECT c_id
+      FROM Score
+      WHERE s_id = '01'
+      )
+  # 将自己排除
+  AND sc.s_id != '01' 
+```
+
+## 12、查询和“01”号同学所学课程完全相同的其他同学的学号和姓名
+
+```sql
+#第一条件判断选棵数和01相同
+#第二条件判断不能选01没选的课
+SELECT s_id, s_name
+FROM Student
+WHERE s_id in
+      (
+      SELECT distinct s_id
+      FROM Score
+      WHERE s_id != '01'
+      GROUP BY s_id
+      HAVING COUNT(distinct c_id) = (
+                                    SELECT count(distinct c_id)
+                                    FROM Score
+                                    WHERE s_id = '01'
+                                    )
+      )
+  and s_id not in
+      (
+      SELECT distinct s_id
+      FROM Score
+      WHERE c_id not in
+            (
+            SELECT c_id
+            FROM Score
+            WHERE s_id = '01'
+            )
+      )
+```
+
+## 13、查询没学过"张三"老师讲授的任一门课程的学生姓名
 
 
 
