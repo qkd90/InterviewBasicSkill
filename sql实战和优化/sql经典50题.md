@@ -235,7 +235,29 @@ WHERE s_id in
 
 ## 13、查询没学过"张三"老师讲授的任一门课程的学生姓名
 
+```
+select
+    s_id,
+    s_name
+from Student
+where s_id not in
+      (
+      select distinct
+          s_id -- 上过张三老师任何一门课的学生
+      from Score
+      where c_id in (
+                    select
+                        c_id
+                    from Course
+                         join Teacher T on Course.t_id = T.t_id
+                    where T.t_name = '张三'
+                    )
+      );
+```
 
+1.张三教授全部课程
+
+2.没学过这些课程的学生
 
 
 
