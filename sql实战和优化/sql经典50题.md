@@ -235,7 +235,7 @@ WHERE s_id in
 
 ## 13、查询没学过"张三"老师讲授的任一门课程的学生姓名
 
-```
+```sql
 select
     s_id,
     s_name
@@ -259,5 +259,41 @@ where s_id not in
 
 2.没学过这些课程的学生
 
+## 15、查询两门及其以上不及格课程的同学的学号，姓名及其平均成绩
 
+```sql
+select
+    sc.s_id,
+    S.s_name,
+    avg(sc.s_Score)
+from Score sc
+     join Student S on sc.s_id = S.s_id
+where sc.s_id in
+      (
+      select
+          s_id
+      from Score
+      where s_Score < 60
+      group by s_id
+      having count(distinct c_id) >= 2
+      )
+group by S.s_name, sc.s_id;
+```
+
+1.HAVING子句可以让我们筛选成组后的各组数据，WHERE子句在**聚合前**先筛选记录．也就是说作用在GROUP BY 子句和HAVING子句前；而 HAVING子句在**聚合后**对组记录进行筛选
+
+“Where” 是一个约束声明，是在查询**结果集返回之前**约束来自数据库的数据，且Where中不能使用聚合函数。
+“Having”是一个过滤声明，是在查询**结果集返回以后**对查询结果进行的过滤操作，在Having中可以使用聚合函数。
+
+## 16. 检索"01"课程分数小于60，按分数降序排列的学生信息
+
+```sql
+select
+    st.*
+from Score s
+     left join Student st on s.s_id = st.s_id
+where c_id = '01'
+  and s_score < 60
+order by S.s_Score desc;
+```
 
