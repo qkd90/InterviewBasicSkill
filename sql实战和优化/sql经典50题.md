@@ -297,3 +297,39 @@ where c_id = '01'
 order by S.s_Score desc;
 ```
 
+## 17. 按平均成绩从高到低显示所有学生的所有课程的成绩以及平均成绩
+
+```sql
+SELECT
+    s_id,
+    MAX(CASE WHEN c_id = '01' THEN s_score END) "语文",
+    MAX(CASE WHEN c_id = '02' THEN s_score END) "数学",
+    MAX(CASE WHEN c_id = '03' THEN s_score END) "英语",
+    AVG(s_score)                                "平均成绩"
+FROM Score
+GROUP BY s_id
+ORDER BY AVG(s_score) DESC
+```
+
+1.max的作用是聚合查询到的单个课程编号下的3个成绩
+
+如果对于varchar 型数值score进行按数据大小排序则是MAX(score + 0)
+
+## 18.查询各科成绩最高分、最低分和平均分：以如下形式显示：课程ID，课程name，最高分，最低分，平均分，及格率，中等率，优良率，优秀率
+
+```sql
+select
+    sc.c_id,
+    C.c_name,
+    max(s_Score) as                                                         最高分,
+    min(s_Score) as                                                         最低分,
+    avg(s_Score) as                                                         平均分,
+    sum(if(sc.s_score >= 60, 1.0, 0)) / count(sc.s_id)                      "及格",
+    sum(if(sc.s_score >= 70 and sc.s_score <= 80, 1.0, 0)) / count(sc.s_id) "中等",
+    sum(if(sc.s_score >= 80 and sc.s_score <= 90, 1.0, 0)) / count(sc.s_id) "优良",
+    sum(if(sc.s_score >= 90, 1.0, 0)) / count(sc.s_id) "优秀"
+from Score sc
+     join Course C on sc.c_id = C.c_id
+group by sc.c_id, C.c_name;
+```
+
