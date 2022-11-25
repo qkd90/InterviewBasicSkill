@@ -317,6 +317,8 @@ ORDER BY AVG(s_score) DESC
 
 ## 18.查询各科成绩最高分、最低分和平均分：以如下形式显示：课程ID，课程name，最高分，最低分，平均分，及格率，中等率，优良率，优秀率
 
+![image-20221123145314096](https://raw.githubusercontent.com/qkd90/figureBed/main/202211231453157.png)
+
 ```sql
 select
     sc.c_id,
@@ -333,3 +335,24 @@ from Score sc
 group by sc.c_id, C.c_name;
 ```
 
+## 19. 按各科成绩进行排序，并显示排名
+
+![image-20221124174405877](https://raw.githubusercontent.com/qkd90/figureBed/main/202211241744951.png)
+
+```sql
+select
+c_id,s_id,s_Score
+,dense_rank() over (partition by c_id order by s_Score desc) as 排名
+from Score
+order by c_id,排名
+```
+
+1.dense_rank()：窗口函数
+
+窗口函数，也叫OLAP（online analytical processing，联机分析处理），可以对数据库数据进行实时分析处理。窗口函数可以放专用窗口函数，譬如：*dense*_*rank，row_number，*以及聚合函数*。*原则上只能在select子句中。
+
+DENSE_RANK 窗口函数基于 OVER 子句中的 ORDER BY 表达式确定一组值中的一个值的排名。如果存在可选的 PARTITION BY 子句，则为每个行组重置排名。带符合排名标准的相同值的行接收相同的排名。DENSE_RANK 函数与 RANK 存在以下一点不同：如果两个或两个以上的行结合，则一系列排名的值之间没有间隔。例如，如果两个行的排名为 1，则下一个排名则为 2。
+
+如果改为rank结果将变为：
+
+![image-20221125115540827](https://raw.githubusercontent.com/qkd90/figureBed/main/202211251155956.png)
