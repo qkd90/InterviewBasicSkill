@@ -356,3 +356,34 @@ DENSE_RANK 窗口函数基于 OVER 子句中的 ORDER BY 表达式确定一组�
 如果改为rank结果将变为：
 
 ![image-20221125115540827](https://raw.githubusercontent.com/qkd90/figureBed/main/202211251155956.png)
+
+## √20. 查询学生的总成绩并进行排名
+
+![image-20221129143844323](https://raw.githubusercontent.com/qkd90/figureBed/main/202211291438375.png)
+
+```sql
+select
+    s_id,
+    sum(s_score) as 总成绩
+from Score
+group by s_id
+order by 总成绩 desc;
+```
+
+
+
+## √21. 查询不同老师所教不同课程平均分从高到低显示
+
+![image-20221130114153983](https://raw.githubusercontent.com/qkd90/figureBed/main/202211301141048.png)
+
+```sql
+select
+    C.t_id,
+    C.c_id,
+    avg(S.s_score) as 平均分
+from Course C
+     join Score S on C.c_id = S.c_id
+group by C.t_id, C.c_id
+order by 平均分 desc;
+```
+
