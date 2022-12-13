@@ -387,3 +387,53 @@ group by C.t_id, C.c_id
 order by 平均分 desc;
 ```
 
+## 23.使用分段[100-85],[85-70],[70-60],[<60]来统计各科成绩，分别统计各分数段人数：课程ID和课程名称
+
+![image-20221208135026776](https://raw.githubusercontent.com/qkd90/figureBed/main/202212081350846.png)
+
+```sql
+SELECT c.c_id,
+       c.c_name,
+       ((SELECT COUNT(1) FROM Score sc WHERE sc.c_id = c.c_id AND sc.s_Score <= 100 AND sc.s_Score > 80)) "100-85",
+       ((SELECT COUNT(1) FROM Score sc WHERE sc.c_id = c.c_id AND sc.s_Score <= 85 AND sc.s_Score > 70))  "85-70",
+       ((SELECT COUNT(1) FROM Score sc WHERE sc.c_id = c.c_id AND sc.s_Score <= 70 AND sc.s_Score > 60))  "70-60",
+       ((SELECT COUNT(1) FROM Score sc WHERE sc.c_id = c.c_id AND sc.s_Score <= 60 AND sc.s_Score >= 0))  "60-0"
+FROM Course c
+ORDER BY c.c_id
+```
+
+## 25.查询各科成绩前三名的记录（不考虑成绩并列情况）
+
+![image-20221212114623457](https://raw.githubusercontent.com/qkd90/figureBed/main/202212121146513.png)
+
+```sql
+select
+    a.c_id,
+    a.s_id,
+    a.s_Score
+from (
+     select *,
+            row_number() over (partition by c_id order by s_Score desc) as rk
+     from Score
+     ) as a
+where a.rk in (1, 2, 3)
+order by a.c_id, a.rk;
+```
+
+## √26.查询每门课程被选修的学生数
+
+根据课程分组，根据id升序排列
+
+![image-20221213154626552](https://raw.githubusercontent.com/qkd90/figureBed/main/202212131546628.png)
+
+```sql
+select
+    c.c_id,
+    c.c_name,
+    count(s.s_id) as 人数
+from Course c
+     join Score s on c.c_id = s.c_id
+group by C.c_id, C.c_name
+order by C.c_id;
+```
+
