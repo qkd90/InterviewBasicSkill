@@ -180,6 +180,7 @@ JOIN
 		# 子查询注意都要使用别名
 ON st.s_id = n.s_id
 
+
 ```
 
 1.没有学全所有课=课程数<所有课程个数
@@ -437,3 +438,70 @@ group by C.c_id, C.c_name
 order by C.c_id;
 ```
 
+## 27.查询出只上两门课程的全部学生的学号和姓名
+
+![image-20230320173301168](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320173301168.png)
+
+```sql
+select
+    st.s_id,
+    st.s_name,
+    count(distinct c_id) as 选课门数
+from student st
+     left join score s on st.s_id = s.s_id
+group by st.s_id, st.s_name
+having count(distinct c_id) = 2
+```
+
+## 28.查询男生、女生人数
+
+![image-20230320174409772](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320174409772.png)
+
+```sql
+select
+    s_sex,
+    count(s_id) 人数
+from student
+group by s_sex;
+```
+
+## 29.查询名字中含有"风"字的学生信息
+
+![image-20230320174933898](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320174933898.png)
+
+
+
+```sql
+select
+    *
+from student
+where s_name like "%风%";
+```
+
+## 31.查询1990年出生的学生名单
+
+![image-20230320175201454](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320175201454.png)
+
+```sql
+select
+    *
+from student
+where year(s_birth) = 1990;
+```
+
+## 32.查询平均成绩大于等于85的所有学生的学号、姓名和平均成绩
+
+![image-20230321173224113](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230321173224113.png)
+
+```sql
+select
+    st.s_id,
+    st.s_name,
+    avg(s_Score) as 成绩
+from student st
+     join score S on st.s_id = S.s_id
+group by st.s_id, st.s_name
+having avg(s_Score) >= 85;
+```
+
+## 33.查询每门课程的平均成绩，结果按平均成绩升序排序，平均成绩相同时，按课程号降序排列
