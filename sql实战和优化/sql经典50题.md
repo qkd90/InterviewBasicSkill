@@ -440,7 +440,7 @@ order by C.c_id;
 
 ## 27.查询出只上两门课程的全部学生的学号和姓名
 
-![image-20230320173301168](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320173301168.png)
+![image-20230324170019422](https://raw.githubusercontent.com/qkd90/figureBed/main/202303241700470.png)
 
 ```sql
 select
@@ -455,7 +455,7 @@ having count(distinct c_id) = 2
 
 ## 28.查询男生、女生人数
 
-![image-20230320174409772](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320174409772.png)
+![image-20230320174409772](https://raw.githubusercontent.com/qkd90/figureBed/main/202303241700489.png)
 
 ```sql
 select
@@ -467,7 +467,7 @@ group by s_sex;
 
 ## 29.查询名字中含有"风"字的学生信息
 
-![image-20230320174933898](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320174933898.png)
+![image-20230324165949448](https://raw.githubusercontent.com/qkd90/figureBed/main/202303241659490.png)
 
 
 
@@ -480,7 +480,7 @@ where s_name like "%风%";
 
 ## 31.查询1990年出生的学生名单
 
-![image-20230320175201454](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230320175201454.png)
+![image-20230324165937392](https://raw.githubusercontent.com/qkd90/figureBed/main/202303241659432.png)
 
 ```sql
 select
@@ -491,7 +491,7 @@ where year(s_birth) = 1990;
 
 ## 32.查询平均成绩大于等于85的所有学生的学号、姓名和平均成绩
 
-![image-20230321173224113](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230321173224113.png)
+![image-20230324165924652](https://raw.githubusercontent.com/qkd90/figureBed/main/202303241659716.png)
 
 ```sql
 select
@@ -504,4 +504,103 @@ group by st.s_id, st.s_name
 having avg(s_Score) >= 85;
 ```
 
-## 33.查询每门课程的平均成绩，结果按平均成绩升序排序，平均成绩相同时，按课程号降序排列
+## 33.查询每门课程的平均成绩，结果按平均成绩升序排序，显示课程名称，当平均成绩相同时，按课程号降序排列
+
+![image-20230327161841078](https://raw.githubusercontent.com/qkd90/figureBed/main/202303271618149.png)
+
+```sql
+select
+    sc.c_id,
+    c.c_name,
+    avg(s_Score) as 平均成绩
+from score sc
+     join course c on sc.c_id = c.c_id
+group by sc.c_id, c.c_name
+order by 平均成绩 asc, sc.c_id desc;
+```
+
+## 34.查询课程名称为"数学"，且分数低于60的学生姓名和分数
+
+![image-20230327163801542](https://raw.githubusercontent.com/qkd90/figureBed/main/202303271638580.png)
+
+```sql
+select
+st.s_name
+,s.s_score
+from student st
+join score s on st.s_id = s.s_id
+join course c on s.c_id = c.c_id
+where c.c_name = '数学'
+and s.s_score <60;
+```
+
+MySQL多表连接查询：
+
+1.内连接join
+
+2.左外连接还返回左表中不符合连接条件，但符合查询条件的数据行。(所谓左表，就是写在left join关键字左边的表)
+
+3.右外连接还返回右表中不符合连接条件，但符合查询条件的数据行。(所谓右表，就是写在right join关键字右边的表)
+
+## 35.查询所有学生的课程及分数情况
+
+
+
+## 36.查询任何一门课程成绩在70分以上的姓名、课程名称和分数
+
+
+
+## 37.查询不及格的课程并按课程号从大到小排列
+
+
+
+## 38. 查询课程编号为03且课程成绩在80分以上的学生的学号和姓名
+
+
+
+## 39.求每门课程的学生人数
+
+
+
+## 40.查询选修“张三”老师所授课程的学生中成绩最高的学生姓名及其成绩
+
+
+
+## 41.查询不同课程成绩相同的学生的学生编号、课程编号、学生成绩
+
+
+
+## 42.查询每门功成绩最好的前两名
+
+
+
+## 43.统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列
+
+
+
+## 44.检索至少选修两门课程的学生学号
+
+
+
+## 45.查询选修了全部课程的学生信息
+
+
+
+## 46.查询各学生的年龄
+
+
+
+## 47.查询没学过“张三”老师讲授的任一门课程的学生姓名
+
+
+
+## 48.查询下周过生日的学生
+
+
+
+## 49.查询本月过生日的人
+
+
+
+## 50.查询下月过生日的人
+
