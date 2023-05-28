@@ -548,9 +548,33 @@ MySQL多表连接查询：
 
 ## 36.查询任何一门课程成绩在70分以上的姓名、课程名称和分数
 
+![image-20230508171729539](C:/Users/51705/AppData/Roaming/Typora/typora-user-images/image-20230508171729539.png)
+
+```sql
+select st.s_name, C.c_name, S.s_Score
+from student st
+         join score S on st.s_id = S.s_id
+         join course C on S.c_id = C.c_id
+where S.s_Score > 70
+order by st.s_id, S.s_Score desc;
+```
+
 
 
 ## 37.查询不及格的课程并按课程号从大到小排列
+
+![image-20230508173403543](https://raw.githubusercontent.com/qkd90/figureBed/main/202305081734592.png)
+
+```sql
+select st.s_name,
+       C.c_name,
+       S.s_Score
+from student st
+         join score S on st.s_id = S.s_id
+         join course C on S.c_id = C.c_id
+where S.s_Score < 60
+order by S.c_id, S.s_Score desc;
+```
 
 
 
@@ -576,11 +600,22 @@ MySQL多表连接查询：
 
 ## 43.统计每门课程的学生选修人数（超过5人的课程才统计）。要求输出课程号和选修人数，查询结果按人数降序排列，若人数相同，按课程号升序排列
 
+![image-20230508174533554](https://raw.githubusercontent.com/qkd90/figureBed/main/202305081745588.png)
+
+```sql
+select
+    c_id,count(distinct s_id) as 人数
+from score
+group by c_id
+having count(distinct s_id)>5
+order by 人数,c_id;
+```
+
 
 
 ## 44.检索至少选修两门课程的学生学号
 
-
+ 
 
 ## 45.查询选修了全部课程的学生信息
 
@@ -596,9 +631,49 @@ MySQL多表连接查询：
 
 ## 48.查询下周过生日的学生
 
+```sql
 
+```
+
+### **语法**
+
+DATEDIFF() 函数返回两个日期之间的天数。
+
+DATEDIFF(datepart,startdate,enddate)
+
+startdate 和 enddate 参数是合法的日期表达式。datepart 参数可以是下列的值：
+
+| datepart | 缩写     |
+| :------- | :------- |
+| 年       | yy, yyyy |
+| 季度     | qq, q    |
+| 月       | mm, m    |
+| 年中的日 | dy, y    |
+| 日       | dd, d    |
+| 周       | wk, ww   |
+| 星期     | dw, w    |
+| 小时     | hh       |
+| 分钟     | mi, n    |
+| 秒       | ss, s    |
+| 毫秒     | ms       |
+| 微妙     | mcs      |
+| 纳秒     | ns       |
+
+```sql
+SELECT DATEDIFF(day,'2008-06-05','2008-08-05') AS DiffDate
+```
+
+结果是：61
 
 ## 49.查询本月过生日的人
+
+![image-20230508180613644](https://raw.githubusercontent.com/qkd90/figureBed/main/202305081806688.png)
+
+```sql
+select *
+from student
+where month(s_birth) = month(now());
+```
 
 
 
